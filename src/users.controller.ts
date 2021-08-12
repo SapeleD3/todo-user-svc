@@ -22,6 +22,7 @@ export const register = async (req: Request, res: Response) => {
     //check if email exists in db
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      console.log('existingUser', existingUser);
       return responseHandler(res, BAD_REQUEST, {
         message: ReasonPhrases.BAD_REQUEST,
         data: {},
@@ -54,6 +55,24 @@ export const register = async (req: Request, res: Response) => {
       },
     });
   } catch (e) {
+    console.log('ERROR', e);
+    return responseHandler(res, INTERNAL_SERVER_ERROR, {
+      message: ReasonPhrases.INTERNAL_SERVER_ERROR,
+      data: {},
+    });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await User.deleteOne({ _id: id });
+    return responseHandler(res, OK, {
+      message: ReasonPhrases.OK,
+      data: {},
+    });
+  } catch (e) {
+    console.log('ERROR', e);
     return responseHandler(res, INTERNAL_SERVER_ERROR, {
       message: ReasonPhrases.INTERNAL_SERVER_ERROR,
       data: {},

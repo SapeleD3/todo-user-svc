@@ -15,7 +15,7 @@ export async function connectToDB() {
       useCreateIndex: true,
       useFindAndModify: true,
     });
-    console.log('Successfully connected to database');
+    console.log('Successfully connected to database', String(URL));
   } catch (err) {
     console.log(err);
   }
@@ -27,6 +27,7 @@ export const ROUTES = {
   LOGIN: '/user/login',
   ME: '/user',
   HOME: '/',
+  USER: '/:id',
 };
 
 export type ResponseDetails = {
