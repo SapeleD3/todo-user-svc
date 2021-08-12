@@ -4,6 +4,7 @@ import httpStatusCode, { ReasonPhrases } from 'http-status-codes';
 import { sign } from 'jsonwebtoken';
 import { responseHandler } from './index.constants';
 import { RequestWithUser, User } from './users.model';
+import { pubsubNotifcation } from './user.utils';
 
 const { INTERNAL_SERVER_ERROR, BAD_REQUEST, OK } = httpStatusCode;
 
@@ -35,6 +36,16 @@ export const register = async (req: Request, res: Response) => {
     const { _id } = newUser;
     const token = sign({ user: _id }, process.env.JWT_SECRET_KEY!, {
       expiresIn,
+    });
+    await pubsubNotifcation({
+      body: {
+        userId: _id,
+        email,
+        title: 'Welcome to our todo App',
+        description: 'User successfully registered to do app',
+        seen: false,
+      },
+      topicName: 'create-notification',
     });
     return responseHandler(res, OK, {
       message: ReasonPhrases.OK,
