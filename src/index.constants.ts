@@ -15,7 +15,7 @@ export async function connectToDB() {
       useCreateIndex: true,
       useFindAndModify: true,
     });
-    console.log('Successfully connected to database', String(URL));
+    console.log('Successfully connected to', String(URL));
   } catch (err) {
     console.log(err);
   }
