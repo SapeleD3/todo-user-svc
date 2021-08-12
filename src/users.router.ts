@@ -10,7 +10,7 @@ router.post(ROUTES.REGISTER, validateUserInputData, register);
 router.post(ROUTES.LOGIN, validateUserInputData, login);
 router.get(ROUTES.ME, isLoggedIn, getUserData);
 router.get(ROUTES.HOME, (req: Request, res: Response) => {
-  res.send('Welcome to my User service');
+  res.send('Welcome to my updated User service');
 });
 
 export default router;
