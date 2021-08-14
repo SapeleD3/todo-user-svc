@@ -63,7 +63,7 @@ const logstashTransport = new logstash.LogstashTransport({
 
 const envTag = (logEntry: any) => {
   const tag = {
-    env: process.env.APPLICATION_ENV || 'local',
+    env: process.env.NODE_ENV || 'local',
   };
   const taggedLog = Object.assign(tag, logEntry);
   logEntry[MESSAGE] = JSON.stringify(taggedLog);
@@ -77,18 +77,12 @@ transports.push(consoleTransport);
 transports.push(logstashTransport);
 
 const logger: any = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
+  level: 'info',
   format: winston.format.combine(
     winston.format(errorFormatter)(),
     winston.format(envTag)()
   ),
   transports,
 });
-
-logger.stream = {
-  write: function (message: any, _encoding: any) {
-    logger.http(message);
-  },
-};
 
 export default logger;
