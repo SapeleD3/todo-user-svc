@@ -5,6 +5,7 @@ import { sign } from 'jsonwebtoken';
 import { responseHandler } from './index.constants';
 import { RequestWithUser, User } from './users.model';
 import { pubsubNotifcation } from './user.utils';
+import logger from './helpers/logging';
 
 const { INTERNAL_SERVER_ERROR, BAD_REQUEST, OK } = httpStatusCode;
 
@@ -22,7 +23,6 @@ export const register = async (req: Request, res: Response) => {
     //check if email exists in db
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      console.log('existingUser', existingUser);
       return responseHandler(res, BAD_REQUEST, {
         message: ReasonPhrases.BAD_REQUEST,
         data: {},
@@ -38,16 +38,18 @@ export const register = async (req: Request, res: Response) => {
     const token = sign({ user: _id }, process.env.JWT_SECRET_KEY!, {
       expiresIn,
     });
-    await pubsubNotifcation({
-      body: {
-        userId: _id,
-        email,
-        title: 'Welcome to our todo App',
-        description: 'User successfully registered to do app',
-        seen: false,
-      },
-      topicName: 'create-notification',
-    });
+    if (process.env.NODE_ENV === 'production') {
+      await pubsubNotifcation({
+        body: {
+          userId: _id,
+          email,
+          title: 'Welcome to our todo App',
+          description: 'User successfully registered to do app',
+          seen: false,
+        },
+        topicName: 'create-notification',
+      });
+    }
     return responseHandler(res, OK, {
       message: ReasonPhrases.OK,
       data: {
@@ -55,7 +57,7 @@ export const register = async (req: Request, res: Response) => {
       },
     });
   } catch (e) {
-    console.log('ERROR', e);
+    logger.error(e);
     return responseHandler(res, INTERNAL_SERVER_ERROR, {
       message: ReasonPhrases.INTERNAL_SERVER_ERROR,
       data: {},
@@ -72,7 +74,7 @@ export const deleteUser = async (req: Request, res: Response) => {
       data: {},
     });
   } catch (e) {
-    console.log('ERROR', e);
+    logger.error(e);
     return responseHandler(res, INTERNAL_SERVER_ERROR, {
       message: ReasonPhrases.INTERNAL_SERVER_ERROR,
       data: {},
@@ -120,6 +122,7 @@ export const login = async (req: Request, res: Response) => {
       },
     });
   } catch (e) {
+    logger.error(e);
     return responseHandler(res, INTERNAL_SERVER_ERROR, {
       message: ReasonPhrases.INTERNAL_SERVER_ERROR,
       data: {},
@@ -145,6 +148,7 @@ export const getUserData = async (req: RequestWithUser, res: Response) => {
       },
     });
   } catch (e) {
+    logger.error(e);
     return responseHandler(res, INTERNAL_SERVER_ERROR, {
       message: ReasonPhrases.INTERNAL_SERVER_ERROR,
       data: {},

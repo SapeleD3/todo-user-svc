@@ -1,6 +1,7 @@
 import RateLimiter from 'express-rate-limit';
 import mongoose from 'mongoose';
 import { Response } from 'express';
+import logger from './helpers/logging';
 
 /**
  * Connects service to mongodb
@@ -15,9 +16,9 @@ export async function connectToDB() {
       useCreateIndex: true,
       useFindAndModify: true,
     });
-    console.log('Successfully connected to', String(URL));
+    logger.info('Successfully connected to', String(URL));
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 }
 
@@ -27,7 +28,7 @@ export const ROUTES = {
   LOGIN: '/user/login',
   ME: '/user',
   HOME: '/',
-  USER: '/:id',
+  USER: '/user/:id',
 };
 
 export type ResponseDetails = {
