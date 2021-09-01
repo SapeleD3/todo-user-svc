@@ -4,11 +4,10 @@ steps:
     args: ['cp', 'gs://fortnaux/.prod.env', '.env']
   # build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args:
-      ['build', '-t', 'gcr.io/${_PROJECT_ID}/user-svc', '.']
+    args: ['build', '-t', 'gcr.io/${_PROJECT_ID}/user-svc', '.']
   # scan the container image
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: 
+    args:
       [
         'gcloud',
         'artifacts',
@@ -17,12 +16,12 @@ steps:
         'scan',
         'gcr.io/${_PROJECT_ID}/user-svc:latest',
         "--format='value(response.scan)'",
-        '>'
-        '/workspace/scan_id.txt'
+        '>',
+        '/workspace/scan_id.txt',
       ]
   # severity check
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: 
+    args:
       [
         'gcloud',
         'artifacts',
@@ -45,8 +44,8 @@ steps:
         'else',
         'exit',
         '0;',
-        'fi'
-    ]
+        'fi',
+      ]
   # push the container image to gcr
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/${_PROJECT_ID}/user-svc']
