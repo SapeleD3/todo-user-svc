@@ -15,7 +15,7 @@ steps:
         'scan',
         'gcr.io/${_PROJECT_ID}/user-svc:latest',
         '--remote',
-        "--format='value(response.scan)'",
+        '--format='value(response.scan)'',
         '>',
         './scan_id.txt',
       ]
