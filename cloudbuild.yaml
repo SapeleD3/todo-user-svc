@@ -14,7 +14,7 @@ steps:
         'images',
         'scan',
         'gcr.io/${_PROJECT_ID}/user-svc:latest',
-        '--remote'
+        '--remote',
         "--format='value(response.scan)'",
         '>',
         '/scan_id.txt',
