@@ -14,9 +14,11 @@ steps:
         'docker',
         'images',
         'scan',
+        'gcr.io/${_PROJECT_ID}/user-svc:latest',
+        '--remote'
         "--format='value(response.scan)'",
         '>',
-        '/workspace/scan_id.txt',
+        '/scan_id.txt',
       ]
   # severity check
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -27,7 +29,7 @@ steps:
         'docker',
         'images',
         'list-vulnerabilities',
-        '$(cat /workspace/scan_id.txt)',
+        '$(cat /scan_id.txt)',
         "--format='value(vulnerability.effectiveSeverity)'",
         '|',
         'if',
