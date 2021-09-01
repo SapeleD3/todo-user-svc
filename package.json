@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "dev": "cross-env NODE_ENV=development nodemon",
-    "prebuild": "npm audit && npm run test",
+    "prebuild": "npm audit",
     "build": "tsc",
     "start": "node build/index.js"
   },
