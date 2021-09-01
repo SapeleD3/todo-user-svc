@@ -8,14 +8,45 @@ steps:
       ['build', '-t', 'gcr.io/${_PROJECT_ID}/user-svc', '.']
   # scan the container image
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: - -c
-     - |
-       gcloud artifacts docker images scan gcr.io/${_PROJECT_ID}/user-svc:latest --format='value(response.scan)' > /workspace/scan_id.txt
+    args: 
+      [
+        'gcloud',
+        'artifacts',
+        'docker',
+        'images',
+        'scan',
+        'gcr.io/${_PROJECT_ID}/user-svc:latest',
+        "--format='value(response.scan)'",
+        '>'
+        '/workspace/scan_id.txt'
+      ]
   # severity check
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: - -c
-     - |
-       gcloud artifacts docker images list-vulnerabilities $(cat /workspace/scan_id.txt) --format='value(vulnerability.effectiveSeverity)' | if grep -Fxq ${_SEVERITY}; then echo 'Failed vulnerability check' && exit 1; else exit 0; fi
+    args: 
+      [
+        'gcloud',
+        'artifacts',
+        'docker',
+        'images',
+        'list-vulnerabilities',
+        '$(cat /workspace/scan_id.txt)',
+        "--format='value(vulnerability.effectiveSeverity)'",
+        '|',
+        'if',
+        'grep',
+        '-Fxq',
+        '${_SEVERITY};',
+        'then',
+        'echo',
+        'Failed vulnerability check',
+        '&&',
+        'exit',
+        '1;',
+        'else',
+        'exit',
+        '0;',
+        'fi'
+    ]
   # push the container image to gcr
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/${_PROJECT_ID}/user-svc']
