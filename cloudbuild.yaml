@@ -9,7 +9,6 @@ steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       [
-        'gcloud',
         'artifacts',
         'docker',
         'images',
@@ -24,7 +23,6 @@ steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       [
-        'gcloud',
         'artifacts',
         'docker',
         'images',
