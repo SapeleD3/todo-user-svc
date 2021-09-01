@@ -1,0 +1,109 @@
+---
+openapi: 3.0.1
+info:
+  title: defaultTitle
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: https://users-tozs7pshfa-uc.a.run.app
+paths:
+  /user/login:
+    post:
+      description: Auto generated using Swagger Inspector
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user_login_body'
+            examples:
+              '0':
+                value: |-
+                  {
+                      "email": "oyinkuromoseictor@gmail.com",
+                      "password": "1234567"
+                  }
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: https://users-tozs7pshfa-uc.a.run.app
+    servers:
+      - url: https://users-tozs7pshfa-uc.a.run.app
+  /user/610dc70f5759f8f8f6f23c64:
+    delete:
+      description: Auto generated using Swagger Inspector
+      responses:
+        '404':
+          description: Auto generated using Swagger Inspector
+          content:
+            text/html; charset=utf-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: https://users-tozs7pshfa-uc.a.run.app
+    servers:
+      - url: https://users-tozs7pshfa-uc.a.run.app
+  /user:
+    get:
+      description: Auto generated using Swagger Inspector
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: https://users-tozs7pshfa-uc.a.run.app
+    servers:
+      - url: https://users-tozs7pshfa-uc.a.run.app
+  /user/register:
+    post:
+      description: Auto generated using Swagger Inspector
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user_register_body'
+            examples:
+              '0':
+                value: |-
+                  {
+                      "email": "oyinkuromoseictor@gmail.com",
+                      "password": "1234567"
+                  }
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: https://users-tozs7pshfa-uc.a.run.app
+    servers:
+      - url: https://users-tozs7pshfa-uc.a.run.app
+components:
+  schemas:
+    user_register_body:
+      type: object
+      properties:
+        password:
+          type: string
+        email:
+          type: string
+    user_login_body:
+      type: object
+      properties:
+        password:
+          type: string
+        email:
+          type: string
