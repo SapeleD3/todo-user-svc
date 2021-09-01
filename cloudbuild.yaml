@@ -17,7 +17,7 @@ steps:
         '--remote',
         "--format='value(response.scan)'",
         '>',
-        '/scan_id.txt',
+        './scan_id.txt',
       ]
   # severity check
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -27,7 +27,7 @@ steps:
         'docker',
         'images',
         'list-vulnerabilities',
-        '$(cat /scan_id.txt)',
+        '$(cat ./scan_id.txt)',
         "--format='value(vulnerability.effectiveSeverity)'",
         '|',
         'if',
